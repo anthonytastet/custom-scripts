@@ -149,5 +149,4 @@ else:
     print("--> ok.")
     print(f"new command added.")
     print(f"type '{command_baseName}' to execute.")
-
-subprocess.call("reload-environment")
+    subprocess.call("reload-environment")

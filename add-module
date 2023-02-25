@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+
 # add module
 # add a custom module to a python module directory available in the PATH
 
@@ -90,5 +91,4 @@ else:
     print("--> ok.")
     print(f"custom module added in '{module_repository}'.")
     print(f"type 'import {module_baseName}' in a python script to use it.")
-
-subprocess.call("reload-environment")
+    subprocess.call("reload-environment")
