@@ -45,31 +45,43 @@ try:
     for file in files_list:
 
         file_extension = get_fileExtension(file)
+
         sub_directory = path.join(target_directory, file_extension)
+        sub_directoryBaseName = get_fileBaseName(sub_directory)
+
         parent_directory = "/".join(sub_directory.split("/",)[:-1])
-        sub_directoryBaseName = get_fileBaseName(str(sub_directory))
         parent_directoryBaseName = get_fileBaseName(parent_directory)
 
+        file_name = path.join(target_directory, file)
+        file_nameBaseName = get_fileBaseName(file_name)
+        # print(f"file_nameBaseName: --> '{file_nameBaseName}'")
+
         file_nameCleaned = path.join(target_directory, clean_fileName(file))
-        print(f"file_name: '{file}'")
+        file_nameCleanedBaseName = get_fileBaseName(file_nameCleaned)
 
         # rename items
-        move(path.join(target_directory, file), file_nameCleaned)
+        move(file_name, file_nameCleaned)
+        if file_nameCleanedBaseName != file_nameBaseName:
+            print(f"renamed: '{file_nameBaseName}' --> '{file_nameCleanedBaseName}'")
 
         # sort items
-        if path.isfile(path.join(target_directory, file_nameCleaned)):
+        if path.isfile(file_nameCleaned):
             if path.exists(sub_directory):
-                if not path.exists(path.join(sub_directory, file_nameCleaned)):
+                if not path.exists(path.join(sub_directory, file_nameCleanedBaseName)):
                     move(file_nameCleaned, sub_directory)
+                    if file_nameCleaned != path.join(sub_directory, file_nameCleanedBaseName):
+                        print(f"moved: '{file_nameCleanedBaseName}' --> '{sub_directory}'")
                 else:
-                    print(f"a file '{file_nameCleaned}' already exists in {sub_directory}")
+                    print(f"a file '{file_nameCleanedBaseName}' already exists in {sub_directory}")
             else:
                 if not sub_directoryBaseName in parent_directory:
                     mkdir(sub_directory)
-                    if not path.exists(path.join(sub_directory, file_nameCleaned)):
+                    if not path.exists(path.join(sub_directory, file_nameCleanedBaseName)):
                         move(file_nameCleaned, sub_directory)
+                        if file_nameCleaned != path.join(sub_directory, file_nameCleanedBaseName):
+                            print(f"moved: '{file_nameCleanedBaseName}' --> '{sub_directory}'")
                     else:
-                        print(f"a file '{file_nameCleaned}' already exists in {sub_directory}")
+                        print(f"a file '{file_nameCleanedBaseName}' already exists in {sub_directory}")
 except:
     print("an exception occurred [2/2]")
 else:
